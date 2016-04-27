@@ -72,14 +72,14 @@ FAX (808) 596-2383</p>
   <input type="text" name="name" id="name" placeholder="Name" required><br />
 
   <label for="email">Email Address (required)</label><br />
-  <input type="email" name="email" id="email" placeholder="Email" required><br />
+  <input type="email" name="_replyto" id="email" placeholder="Email" required><br />
 
   <label for="subject">Subject</label><br />
-  <input type="text" name="subject" id="subject" placeholder="Subject"><br />
+  <input type="text" name="_subject" id="subject" placeholder="Subject"><br />
 
   <label for="message">Message (required)</label><br />
   <textarea name="message" id="message" rows="5" cols="10" placeholder="Your message" required></textarea><br />
-
+  <input type="text" name="_gotcha" style="display:none" />
   <button type="submit">Send</button>
 </form>
 					</div><!-- .entry-content -->
@@ -109,36 +109,30 @@ FAX (808) 596-2383</p>
 <script src="http://www.parsecdn.com/js/parse-1.2.16.min.js"></script>
 <script>
 $(document).ready(function(){
- 
-  // Initialize Parse with your Parse application & javascript keys
-  Parse.initialize("pwuX0xNXf8kwEftiFwNXyrmrbWEmPKoR7toN6hjF", "eiKM4UoImg1Gpw1POAEWZ5CQLntwsJDY8J6MD6N0");
- 
+  
   // Setup the form to watch for the submit event
   $('#contactForm').submit(function(e){
     e.preventDefault();
     $('#response').hide().removeClass();
     // Grab the elements from the form to make up
     // an object containing name, email and message
-    var data = { 
-      name: document.getElementById('name').value, 
-      email: document.getElementById('email').value,
-      subject: $.trim('[NOA Contact Form] '+document.getElementById('subject').value),
-      message: document.getElementById('message').value
-    }
-    
-    // Run our Parse Cloud Code and 
-    // pass our 'data' object to it
-    Parse.Cloud.run("sendEmail", data, {
-      success: function(object) {
-        $('#response').html('Email sent!').addClass('success').fadeIn('fast');
-        document.getElementById('message').value = '';
-      },
- 
-      error: function(object, error) {
-        console.log(error);
-        $('#response').html('Error! Email not sent!').addClass('error').fadeIn('fast');
-      }
-    });
+	var domain = 'noa-engineers.com';
+	$.ajax({
+		url: '//formspree.io/contact-web'+'@'+domain,
+		method: 'POST',
+		data: $(this).serialize(),
+		dataType: 'json',
+		beforeSend: function() {
+			$('#response').html('Sending message…').fadeIn('fast');
+		},
+		success: function(data) {
+			$('#response').html('Email sent!').addClass('success').fadeIn('fast');
+			document.getElementById('message').value = '';
+		},
+		error: function(err) {
+			$('#response').html('Error! Email not sent!').addClass('error').fadeIn('fast');
+		}		
+	})
   });
  
 });    
