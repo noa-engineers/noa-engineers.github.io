@@ -107,7 +107,6 @@ FAX (808) 596-2383</p>
 
 <script type='text/javascript' src='http://www.noa-engineers.com/wp/wp-content/themes/twentytwelve/js/navigation.js?ver=1.0'></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="http://www.parsecdn.com/js/parse-1.2.16.min.js"></script>
 <script>
 $(document).ready(function(){
   
@@ -119,7 +118,7 @@ $(document).ready(function(){
     // an object containing name, email and message
 	var domain = 'noa-engineers.com';
 	$.ajax({
-		url: '//formspree.io/contact-web'+'@'+domain,
+		url: 'https://formspree.io/f/contact-web'+'@'+domain,
 		method: 'POST',
 		data: $(this).serialize(),
 		dataType: 'json',
