@@ -116,9 +116,9 @@ $(document).ready(function(){
     $('#response').hide().removeClass();
     // Grab the elements from the form to make up
     // an object containing name, email and message
-	var domain = 'noa-engineers.com';
+	var formid = 'mqkgbnod';
 	$.ajax({
-		url: 'https://formspree.io/f/contact-web'+'@'+domain,
+		url: 'https://formspree.io/f/'+formid,
 		method: 'POST',
 		data: $(this).serialize(),
 		dataType: 'json',
